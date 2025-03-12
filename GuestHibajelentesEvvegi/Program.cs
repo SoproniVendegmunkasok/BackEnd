@@ -1,0 +1,74 @@
+using System.Text;
+using GuestHibajelentesEvvegi.Data;
+using GuestHibajelentesEvvegi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+
+namespace GuestHibajelentesEvvegi
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        { 
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<AppDbContext>(options => 
+                options.UseMySql("Server=localhost;Database=evvegi_data;Uid=root;Pwd=;", ServerVersion.AutoDetect("Server=localhost;Database=evvegi_data;Uid=root;Pwd=;")));
+
+            builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]));
+
+            //Jwt Token
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = key
+                };
+            });
+
+            var app = builder.Build();
+
+            using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                SeedData.Initialize(serviceScope.ServiceProvider).Wait();
+            }
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+                app.UseHttpsRedirection();
+
+            app.UseAuthorization();
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
+}
