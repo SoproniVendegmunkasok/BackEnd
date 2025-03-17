@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
 using GuestHibajelentesEvvegi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,16 +15,18 @@ namespace GuestHibajelentesEvvegi.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IMapper _Automapper;
 
         RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper automapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _Automapper = automapper;
         }
 
         [Route("Login")]
@@ -40,7 +43,7 @@ namespace GuestHibajelentesEvvegi.Controllers
             if (result.Succeeded)
             {
                 //_logger.LogDebug("Kész");
-                return Ok(await GenerateJwtToken(user));
+                return Ok(new {token= await GenerateJwtToken(user) , user=_Automapper.Map<UserDto>(user)});
             }
             else
             {

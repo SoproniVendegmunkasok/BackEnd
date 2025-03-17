@@ -1,6 +1,7 @@
 ﻿using GuestHibajelentesEvvegi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GuestHibajelentesEvvegi.Controllers
 {
@@ -25,7 +26,7 @@ namespace GuestHibajelentesEvvegi.Controllers
         [Route("Registration")]
         [HttpPost]
 
-        public async Task<IActionResult> RegisterUser(string username, string password, string email, string roleName)
+        public async Task<IActionResult> RegisterUser([FromForm]string username, [FromForm] string password, [FromForm] string email, [FromForm] string roleName)
         {
             User user = new User
             {
@@ -43,6 +44,13 @@ namespace GuestHibajelentesEvvegi.Controllers
             {
                 return BadRequest(user_result.Errors);
             }
+        }
+
+        [HttpGet]
+        [Route("GetAllRoles")]
+        public async Task<IActionResult> AllRoles() 
+        {
+            return Ok(await _roleManager.Roles.ToListAsync());
         }
 
     }

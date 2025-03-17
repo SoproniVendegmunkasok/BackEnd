@@ -24,10 +24,23 @@ namespace GuestHibajelentesEvvegi
             builder.Services.AddDbContext<AppDbContext>(options => 
                 options.UseMySql("Server=localhost;Database=evvegi_data;Uid=root;Pwd=;", ServerVersion.AutoDetect("Server=localhost;Database=evvegi_data;Uid=root;Pwd=;")));
 
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOrigin",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
+
             builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]));
+
+
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile)); 
 
             //Jwt Token
             builder.Services.AddAuthentication(options =>
@@ -48,6 +61,9 @@ namespace GuestHibajelentesEvvegi
                 };
             });
 
+
+
+
             var app = builder.Build();
 
             using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -67,7 +83,7 @@ namespace GuestHibajelentesEvvegi
             app.UseAuthorization();
 
             app.MapControllers();
-
+            app.UseCors("AllowAnyOrigin");
             app.Run();
         }
     }
