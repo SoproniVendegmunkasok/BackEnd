@@ -2,9 +2,12 @@
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
+using GuestHibajelentesEvvegi.Data;
 using GuestHibajelentesEvvegi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GuestHibajelentesEvvegi.Controllers
@@ -16,17 +19,19 @@ namespace GuestHibajelentesEvvegi.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _Automapper;
+        private readonly AppDbContext _context;
 
         RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper automapper)
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper automapper, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _Automapper = automapper;
+            _context = context;
         }
 
         [Route("Login")]
@@ -50,6 +55,29 @@ namespace GuestHibajelentesEvvegi.Controllers
                 return Unauthorized();
             }
         }
+
+        [Route("Logout")]
+        [HttpPost]
+
+        public async Task<IActionResult> LogoutUser()
+        {
+            _signInManager.SignOutAsync();
+            
+            return RedirectToAction("Login", "User");
+        }
+
+        [Route("Show_Errors")]
+        [HttpGet]
+
+        public List<Error> ShowErrors()
+        {
+            List<Error> Error_list = _context.Errors.ToList();
+
+            return Error_list;
+
+        }
+
+        //Token generation
 
         private async Task<string> GenerateJwtToken(User user)
         {
@@ -76,3 +104,14 @@ namespace GuestHibajelentesEvvegi.Controllers
         }
     }
 }
+
+
+    
+
+   
+
+    
+    
+
+
+   

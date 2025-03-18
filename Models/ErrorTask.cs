@@ -2,7 +2,7 @@
 
 namespace GuestHibajelentesEvvegi.Models
 {
-    public class Error_task
+    public class ErrorTask
     {
         public int Id { get; set; }
 

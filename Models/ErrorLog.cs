@@ -2,7 +2,7 @@
 
 namespace GuestHibajelentesEvvegi.Models
 {
-    public class Error_log
+    public class ErrorLog
     {
         public int Id { get; set; }
 
