@@ -69,11 +69,27 @@ namespace GuestHibajelentesEvvegi.Controllers
         [Route("Show_Errors")]
         [HttpGet]
 
-        public List<Error> ShowErrors()
+        public async Task<IActionResult> ShowErrors()
         {
-            List<Error> Error_list = _context.Errors.ToList();
+            var errors = await _context.Errors.ToListAsync();
 
-            return Error_list;
+            var errorsWithTasks = new List<object>();
+            foreach (var error in errors)
+            {
+                var tasks = await _context.Tasks.Where(t => t.associated_error.Id == error.Id).ToListAsync();
+                errorsWithTasks.Add(new
+                {
+                    Error = error,
+                    Tasks = tasks
+                });
+            }
+
+            if (errorsWithTasks == null || errorsWithTasks.Count == 0)
+            {
+                return NotFound(new { Message = "No errors found." });
+            }
+
+            return Ok(errorsWithTasks);
 
         }
 
@@ -102,6 +118,14 @@ namespace GuestHibajelentesEvvegi.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        //Function for finding tasks from the id of an error
+
+        //public async Task<IActionResult> FindTasks(int errorId)
+        //{
+        //    var errorTasks = await _context.Tasks.Where(t => t.associated_error.Id == errorId).ToListAsync();
+        //    return Ok(errorTasks);
+        //}
     }
 }
 

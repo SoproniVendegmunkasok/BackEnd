@@ -7,10 +7,10 @@ namespace GuestHibajelentesEvvegi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SoriController : ControllerBase
+    public class LinesmanController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public SoriController(AppDbContext context)
+        public LinesmanController(AppDbContext context)
         {
             _context = context;
         }
