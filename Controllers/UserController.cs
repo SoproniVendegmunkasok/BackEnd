@@ -48,7 +48,7 @@ namespace GuestHibajelentesEvvegi.Controllers
             if (result.Succeeded)
             {
                 //_logger.LogDebug("Kész");
-                return Ok(new {token= await GenerateJwtToken(user) , user=_Automapper.Map<UserDto>(user)});
+                return Ok(new {token= await GenerateJwtToken(user) , refreshToken = "xd", user=_Automapper.Map<UserDto>(user)});
             }
             else
             {
@@ -72,15 +72,21 @@ namespace GuestHibajelentesEvvegi.Controllers
         public async Task<IActionResult> ShowErrors()
         {
             var errors = await _context.Errors.ToListAsync();
+            var machines = await _context.Machines.ToListAsync();
+            var workers = await _context.Users.ToListAsync();
 
             var errorsWithTasks = new List<object>();
-            foreach (var error in errors)
+            foreach (var error_ in errors)
             {
-                var tasks = await _context.Tasks.Where(t => t.associated_error.Id == error.Id).ToListAsync();
+                var tasks_ = await _context.Tasks.Where(t => t.associated_error.Id == error_.Id).ToListAsync();
+                var machine_ = await _context.Machines.Where(m => m.Id == error_.machine_id).ToListAsync();
+                var worker_ = await _context.Users.Where(w => w.Id == error_.submitted_by).ToListAsync();
                 errorsWithTasks.Add(new
                 {
-                    Error = error,
-                    Tasks = tasks
+                    error = error_,
+                    tasks = tasks_,
+                    machine = machine_,
+                    worker = worker_,
                 });
             }
 
