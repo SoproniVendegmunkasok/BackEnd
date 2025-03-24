@@ -1,6 +1,7 @@
 using System.Text;
 using GuestHibajelentesEvvegi.Data;
 using GuestHibajelentesEvvegi.Models;
+using GuestHibajelentesEvvegi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ namespace GuestHibajelentesEvvegi
             builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"]));
 
 
 
@@ -55,13 +56,13 @@ namespace GuestHibajelentesEvvegi
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Issuer"],
+                    ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ValidAudience = builder.Configuration["JWT:Audience"],
                     IssuerSigningKey = key
                 };
             });
 
-
+            builder.Services.AddSingleton<IAuthService, AuthService>();
 
 
             var app = builder.Build();
@@ -78,12 +79,12 @@ namespace GuestHibajelentesEvvegi
                 app.UseSwaggerUI();
             }
 
-                app.UseHttpsRedirection();
-
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.MapControllers();
             app.UseCors("AllowAnyOrigin");
+
             app.Run();
         }
     }

@@ -4,6 +4,8 @@ using System.Text;
 using AutoMapper;
 using GuestHibajelentesEvvegi.Data;
 using GuestHibajelentesEvvegi.Models;
+using GuestHibajelentesEvvegi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +22,12 @@ namespace GuestHibajelentesEvvegi.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _Automapper;
         private readonly AppDbContext _context;
+        private readonly IAuthService _AuthService;
 
         RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper automapper, AppDbContext context)
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper automapper, AppDbContext context, IAuthService AuthService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,38 +35,72 @@ namespace GuestHibajelentesEvvegi.Controllers
             _configuration = configuration;
             _Automapper = automapper;
             _context = context;
+            _AuthService = AuthService;
         }
 
         [Route("Login")]
         [HttpPost]
-        public async Task<IActionResult> LoginUser([FromForm] string name, [FromForm] string password)
+        public async Task<IActionResult> LoginUser([FromBody] LoginModel model)
         {
-            User user = await _userManager.FindByNameAsync(name);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
-            if (result.Succeeded)
-            {
-                //_logger.LogDebug("Kész");
-                return Ok(new {token= await GenerateJwtToken(user) , refreshToken = "xd", user=_Automapper.Map<UserDto>(user)});
-            }
-            else
+            if (model.Username != "user" || model.Password != "password")
             {
                 return Unauthorized();
             }
+
+            // For demo purposes - in a real app, get this from your user management system
+            var userId = "123";
+            var roles = new[] { "User" };
+
+            // Generate tokens
+            var (accessToken, refreshToken) = _AuthService.GenerateTokens(userId, model.Username, roles);
+
+            // Set refresh token in HTTP-only cookie
+            Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Set to true in production with HTTPS
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(7) // Refresh token with longer lifetime
+            });
+
+            // Return access token in response body
+            return Ok(new
+            {
+                AccessToken = accessToken,
+                ExpiresIn = 900 // 15 minutes in seconds
+            });
+
+
+            //Régi kód
+
+            //User user = await _userManager.FindByNameAsync(name);
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
+            //if (result.Succeeded)
+            //{
+            //    //_logger.LogDebug("Kész");
+            //    return Ok(new {token= await GenerateJwtToken(user) , refreshToken = "xd", user=_Automapper.Map<UserDto>(user)});
+            //}
+            //else
+            //{
+            //    return Unauthorized();
+            //}
         }
 
         [Route("Logout")]
         [HttpPost]
+        [Authorize]
 
         public async Task<IActionResult> LogoutUser()
         {
             _signInManager.SignOutAsync();
+            Response.Cookies.Delete("refreshToken");
             
-            return RedirectToAction("Login", "User");
+            return Ok(RedirectToAction("Login", "User"));
         }
 
         [Route("Show_Errors")]
@@ -99,31 +136,90 @@ namespace GuestHibajelentesEvvegi.Controllers
 
         }
 
-        //Token generation
-
-        private async Task<string> GenerateJwtToken(User user)
+        [Route("refresh-token")]
+        [HttpPost]
+        public IActionResult RefreshToken()
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            // Get refresh token from cookie
+            var refreshToken = Request.Cookies["refreshToken"];
 
-            var roles = await _userManager.GetRolesAsync(user);
-            List<Claim> userClaims = new List<Claim>();
-
-            foreach (var role in roles)
+            if (string.IsNullOrEmpty(refreshToken))
             {
-                userClaims.Add(new Claim(ClaimTypes.Role, role));
+                return BadRequest("Refresh token is required");
             }
 
+            // Get access token from Authorization header
+            var accessToken = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Issuer"],
-                claims: userClaims,
-                expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: creds);
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                return BadRequest("Access token is required");
+            }
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            // Validate refresh token
+            if (!_AuthService.ValidateRefreshToken(refreshToken))
+            {
+                return Unauthorized("Invalid refresh token");
+            }
+
+            try
+            {
+                // Extract claims from the expired access token
+                var principal = _AuthService.GetPrincipalFromExpiredToken(accessToken);
+                var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var username = principal.FindFirst(ClaimTypes.Name)?.Value;
+                var roles = principal.FindAll(ClaimTypes.Role).Select(c => c.Value);
+
+                // Generate new tokens
+                var newTokens = _AuthService.GenerateTokens(userId, username, roles);
+
+                // Set new refresh token in cookie
+                Response.Cookies.Append("refreshToken", newTokens.refreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTime.UtcNow.AddDays(7)
+                });
+
+                // Return new access token
+                return Ok(new
+                {
+                    AccessToken = newTokens.accessToken,
+                    ExpiresIn = 900 // 15 minutes in seconds
+                });
+            }
+            catch (Exception)
+            {
+                return Unauthorized("Invalid token");
+            }
         }
+
+        //Old Token generation
+
+        //private async Task<string> GenerateJwtToken(User user)
+        //{
+        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
+        //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        //    var roles = await _userManager.GetRolesAsync(user);
+        //    List<Claim> userClaims = new List<Claim>();
+
+        //    foreach (var role in roles)
+        //    {
+        //        userClaims.Add(new Claim(ClaimTypes.Role, role));
+        //    }
+
+
+        //    var token = new JwtSecurityToken(
+        //        issuer: _configuration["JWT:Issuer"],
+        //        audience: _configuration["JWT:Audience"],
+        //        claims: userClaims,
+        //        expires: DateTime.Now.AddMinutes(30),
+        //        signingCredentials: creds);
+
+        //    return new JwtSecurityTokenHandler().WriteToken(token);
+        //}
 
         //Function for finding tasks from the id of an error
 
