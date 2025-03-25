@@ -69,7 +69,7 @@ namespace GuestHibajelentesEvvegi
 
             using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                SeedData.Initialize(serviceScope.ServiceProvider).Wait();
+                SeedDataForRoles.Initialize(serviceScope.ServiceProvider).Wait();
             }
 
             // Configure the HTTP request pipeline.
