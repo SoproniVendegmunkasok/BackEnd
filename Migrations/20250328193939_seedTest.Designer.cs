@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GuestHibajelentesEvvegi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250312125022_init")]
-    partial class init
+    [Migration("20250328193939_seedTest")]
+    partial class seedTest
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,9 +66,55 @@ namespace GuestHibajelentesEvvegi.Migrations
                     b.HasIndex("submitted_by");
 
                     b.ToTable("Errors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            assigned_to = "-2",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2472),
+                            description = "Error description 1",
+                            machine_id = -1,
+                            resolved_at = new DateTime(2025, 3, 29, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2473),
+                            status = 0,
+                            submitted_by = "-1"
+                        },
+                        new
+                        {
+                            Id = -2,
+                            assigned_to = "-3",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2478),
+                            description = "Error description 2",
+                            machine_id = -2,
+                            resolved_at = new DateTime(2025, 3, 30, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2480),
+                            status = 1,
+                            submitted_by = "-2"
+                        },
+                        new
+                        {
+                            Id = -3,
+                            assigned_to = "-4",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2482),
+                            description = "Error description 3",
+                            machine_id = -3,
+                            resolved_at = new DateTime(2025, 3, 31, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2484),
+                            status = 2,
+                            submitted_by = "-3"
+                        },
+                        new
+                        {
+                            Id = -4,
+                            assigned_to = "-1",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2486),
+                            description = "Error description 4",
+                            machine_id = -4,
+                            resolved_at = new DateTime(2025, 4, 1, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2487),
+                            status = 0,
+                            submitted_by = "-4"
+                        });
                 });
 
-            modelBuilder.Entity("GuestHibajelentesEvvegi.Models.Error_log", b =>
+            modelBuilder.Entity("GuestHibajelentesEvvegi.Models.ErrorLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,7 +145,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                     b.ToTable("Error_logs");
                 });
 
-            modelBuilder.Entity("GuestHibajelentesEvvegi.Models.Error_task", b =>
+            modelBuilder.Entity("GuestHibajelentesEvvegi.Models.ErrorTask", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,6 +177,116 @@ namespace GuestHibajelentesEvvegi.Migrations
                     b.HasIndex("error_id");
 
                     b.ToTable("Tasks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            assigned_to = "-2",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2516),
+                            description = "Task 1 for Error 1",
+                            error_id = -1,
+                            resolved_at = new DateTime(2025, 3, 28, 21, 39, 39, 99, DateTimeKind.Local).AddTicks(2518)
+                        },
+                        new
+                        {
+                            Id = -2,
+                            assigned_to = "-2",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2521),
+                            description = "Task 2 for Error 1",
+                            error_id = -1,
+                            resolved_at = new DateTime(2025, 3, 28, 22, 39, 39, 99, DateTimeKind.Local).AddTicks(2522)
+                        },
+                        new
+                        {
+                            Id = -3,
+                            assigned_to = "-2",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2524),
+                            description = "Task 3 for Error 1",
+                            error_id = -1,
+                            resolved_at = new DateTime(2025, 3, 28, 23, 39, 39, 99, DateTimeKind.Local).AddTicks(2525)
+                        },
+                        new
+                        {
+                            Id = -4,
+                            assigned_to = "-3",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2527),
+                            description = "Task 1 for Error 2",
+                            error_id = -2,
+                            resolved_at = new DateTime(2025, 3, 28, 21, 39, 39, 99, DateTimeKind.Local).AddTicks(2528)
+                        },
+                        new
+                        {
+                            Id = -5,
+                            assigned_to = "-3",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2530),
+                            description = "Task 2 for Error 2",
+                            error_id = -2,
+                            resolved_at = new DateTime(2025, 3, 28, 22, 39, 39, 99, DateTimeKind.Local).AddTicks(2531)
+                        },
+                        new
+                        {
+                            Id = -6,
+                            assigned_to = "-3",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2533),
+                            description = "Task 3 for Error 2",
+                            error_id = -2,
+                            resolved_at = new DateTime(2025, 3, 28, 23, 39, 39, 99, DateTimeKind.Local).AddTicks(2534)
+                        },
+                        new
+                        {
+                            Id = -7,
+                            assigned_to = "-4",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2536),
+                            description = "Task 1 for Error 3",
+                            error_id = -3,
+                            resolved_at = new DateTime(2025, 3, 28, 21, 39, 39, 99, DateTimeKind.Local).AddTicks(2537)
+                        },
+                        new
+                        {
+                            Id = -8,
+                            assigned_to = "-4",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2539),
+                            description = "Task 2 for Error 3",
+                            error_id = -3,
+                            resolved_at = new DateTime(2025, 3, 28, 22, 39, 39, 99, DateTimeKind.Local).AddTicks(2540)
+                        },
+                        new
+                        {
+                            Id = -9,
+                            assigned_to = "-4",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2542),
+                            description = "Task 3 for Error 3",
+                            error_id = -3,
+                            resolved_at = new DateTime(2025, 3, 28, 23, 39, 39, 99, DateTimeKind.Local).AddTicks(2543)
+                        },
+                        new
+                        {
+                            Id = -10,
+                            assigned_to = "-1",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2545),
+                            description = "Task 1 for Error 4",
+                            error_id = -4,
+                            resolved_at = new DateTime(2025, 3, 28, 21, 39, 39, 99, DateTimeKind.Local).AddTicks(2546)
+                        },
+                        new
+                        {
+                            Id = -11,
+                            assigned_to = "-1",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2548),
+                            description = "Task 2 for Error 4",
+                            error_id = -4,
+                            resolved_at = new DateTime(2025, 3, 28, 22, 39, 39, 99, DateTimeKind.Local).AddTicks(2549)
+                        },
+                        new
+                        {
+                            Id = -12,
+                            assigned_to = "-1",
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2551),
+                            description = "Task 3 for Error 4",
+                            error_id = -4,
+                            resolved_at = new DateTime(2025, 3, 28, 23, 39, 39, 99, DateTimeKind.Local).AddTicks(2552)
+                        });
                 });
 
             modelBuilder.Entity("GuestHibajelentesEvvegi.Models.Machine", b =>
@@ -158,6 +314,40 @@ namespace GuestHibajelentesEvvegi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Machines");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2370),
+                            hall = "H1",
+                            name = "Machine1",
+                            status = 0
+                        },
+                        new
+                        {
+                            Id = -2,
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2428),
+                            hall = "H2",
+                            name = "Machine2",
+                            status = 1
+                        },
+                        new
+                        {
+                            Id = -3,
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2430),
+                            hall = "H3",
+                            name = "Machine3",
+                            status = 0
+                        },
+                        new
+                        {
+                            Id = -4,
+                            created_at = new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2432),
+                            hall = "H4",
+                            name = "Machine4",
+                            status = 1
+                        });
                 });
 
             modelBuilder.Entity("GuestHibajelentesEvvegi.Models.User", b =>
@@ -212,9 +402,6 @@ namespace GuestHibajelentesEvvegi.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
-                    b.Property<int>("role")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -225,6 +412,72 @@ namespace GuestHibajelentesEvvegi.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "-1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "XYZ123",
+                            Email = "user1@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER1@EXAMPLE.COM",
+                            NormalizedUserName = "USER1",
+                            PasswordHash = "AQAAAAEAACcQAAAAE1234567ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "ABC123",
+                            TwoFactorEnabled = false,
+                            UserName = "user1"
+                        },
+                        new
+                        {
+                            Id = "-2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "UVW456",
+                            Email = "user2@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER2@EXAMPLE.COM",
+                            NormalizedUserName = "USER2",
+                            PasswordHash = "AQAAAAEAACcQAAAAE2345678ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "DEF456",
+                            TwoFactorEnabled = false,
+                            UserName = "user2"
+                        },
+                        new
+                        {
+                            Id = "-3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "RST789",
+                            Email = "user3@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER3@EXAMPLE.COM",
+                            NormalizedUserName = "USER3",
+                            PasswordHash = "AQAAAAEAACcQAAAAE3456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "GHI789",
+                            TwoFactorEnabled = false,
+                            UserName = "user3"
+                        },
+                        new
+                        {
+                            Id = "-4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "OPQ012",
+                            Email = "user4@example.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER4@EXAMPLE.COM",
+                            NormalizedUserName = "USER4",
+                            PasswordHash = "AQAAAAEAACcQAAAAE4567890ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "JKL012",
+                            TwoFactorEnabled = false,
+                            UserName = "user4"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -386,7 +639,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                     b.Navigation("submitting_worker");
                 });
 
-            modelBuilder.Entity("GuestHibajelentesEvvegi.Models.Error_log", b =>
+            modelBuilder.Entity("GuestHibajelentesEvvegi.Models.ErrorLog", b =>
                 {
                     b.HasOne("GuestHibajelentesEvvegi.Models.Error", "base_error")
                         .WithMany()
@@ -405,7 +658,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                     b.Navigation("notified_worker");
                 });
 
-            modelBuilder.Entity("GuestHibajelentesEvvegi.Models.Error_task", b =>
+            modelBuilder.Entity("GuestHibajelentesEvvegi.Models.ErrorTask", b =>
                 {
                     b.HasOne("GuestHibajelentesEvvegi.Models.User", "assigned_worker")
                         .WithMany()

@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace GuestHibajelentesEvvegi.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class seedTest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,7 +42,6 @@ namespace GuestHibajelentesEvvegi.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    role = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
@@ -319,6 +320,58 @@ namespace GuestHibajelentesEvvegi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "-1", 0, "XYZ123", "user1@example.com", true, false, null, "USER1@EXAMPLE.COM", "USER1", "AQAAAAEAACcQAAAAE1234567ABCDEFGHIJKLMNOPQRSTUVWXYZ", null, false, "ABC123", false, "user1" },
+                    { "-2", 0, "UVW456", "user2@example.com", true, false, null, "USER2@EXAMPLE.COM", "USER2", "AQAAAAEAACcQAAAAE2345678ABCDEFGHIJKLMNOPQRSTUVWXYZ", null, false, "DEF456", false, "user2" },
+                    { "-3", 0, "RST789", "user3@example.com", true, false, null, "USER3@EXAMPLE.COM", "USER3", "AQAAAAEAACcQAAAAE3456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", null, false, "GHI789", false, "user3" },
+                    { "-4", 0, "OPQ012", "user4@example.com", true, false, null, "USER4@EXAMPLE.COM", "USER4", "AQAAAAEAACcQAAAAE4567890ABCDEFGHIJKLMNOPQRSTUVWXYZ", null, false, "JKL012", false, "user4" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Machines",
+                columns: new[] { "Id", "created_at", "hall", "name", "status" },
+                values: new object[,]
+                {
+                    { -4, new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2432), "H4", "Machine4", 1 },
+                    { -3, new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2430), "H3", "Machine3", 0 },
+                    { -2, new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2428), "H2", "Machine2", 1 },
+                    { -1, new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2370), "H1", "Machine1", 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Errors",
+                columns: new[] { "Id", "assigned_to", "created_at", "description", "machine_id", "resolved_at", "status", "submitted_by" },
+                values: new object[,]
+                {
+                    { -4, "-1", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2486), "Error description 4", -4, new DateTime(2025, 4, 1, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2487), 0, "-4" },
+                    { -3, "-4", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2482), "Error description 3", -3, new DateTime(2025, 3, 31, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2484), 2, "-3" },
+                    { -2, "-3", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2478), "Error description 2", -2, new DateTime(2025, 3, 30, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2480), 1, "-2" },
+                    { -1, "-2", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2472), "Error description 1", -1, new DateTime(2025, 3, 29, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2473), 0, "-1" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tasks",
+                columns: new[] { "Id", "assigned_to", "created_at", "description", "error_id", "resolved_at" },
+                values: new object[,]
+                {
+                    { -12, "-1", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2551), "Task 3 for Error 4", -4, new DateTime(2025, 3, 28, 23, 39, 39, 99, DateTimeKind.Local).AddTicks(2552) },
+                    { -11, "-1", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2548), "Task 2 for Error 4", -4, new DateTime(2025, 3, 28, 22, 39, 39, 99, DateTimeKind.Local).AddTicks(2549) },
+                    { -10, "-1", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2545), "Task 1 for Error 4", -4, new DateTime(2025, 3, 28, 21, 39, 39, 99, DateTimeKind.Local).AddTicks(2546) },
+                    { -9, "-4", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2542), "Task 3 for Error 3", -3, new DateTime(2025, 3, 28, 23, 39, 39, 99, DateTimeKind.Local).AddTicks(2543) },
+                    { -8, "-4", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2539), "Task 2 for Error 3", -3, new DateTime(2025, 3, 28, 22, 39, 39, 99, DateTimeKind.Local).AddTicks(2540) },
+                    { -7, "-4", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2536), "Task 1 for Error 3", -3, new DateTime(2025, 3, 28, 21, 39, 39, 99, DateTimeKind.Local).AddTicks(2537) },
+                    { -6, "-3", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2533), "Task 3 for Error 2", -2, new DateTime(2025, 3, 28, 23, 39, 39, 99, DateTimeKind.Local).AddTicks(2534) },
+                    { -5, "-3", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2530), "Task 2 for Error 2", -2, new DateTime(2025, 3, 28, 22, 39, 39, 99, DateTimeKind.Local).AddTicks(2531) },
+                    { -4, "-3", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2527), "Task 1 for Error 2", -2, new DateTime(2025, 3, 28, 21, 39, 39, 99, DateTimeKind.Local).AddTicks(2528) },
+                    { -3, "-2", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2524), "Task 3 for Error 1", -1, new DateTime(2025, 3, 28, 23, 39, 39, 99, DateTimeKind.Local).AddTicks(2525) },
+                    { -2, "-2", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2521), "Task 2 for Error 1", -1, new DateTime(2025, 3, 28, 22, 39, 39, 99, DateTimeKind.Local).AddTicks(2522) },
+                    { -1, "-2", new DateTime(2025, 3, 28, 20, 39, 39, 99, DateTimeKind.Local).AddTicks(2516), "Task 1 for Error 1", -1, new DateTime(2025, 3, 28, 21, 39, 39, 99, DateTimeKind.Local).AddTicks(2518) }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
