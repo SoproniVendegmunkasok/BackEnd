@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 namespace GuestHibajelentesEvvegi;
 
-public class SeedData
+public class SeedDataForRoles
 {
     public static async Task Initialize(IServiceProvider serviceProvider)
     {
