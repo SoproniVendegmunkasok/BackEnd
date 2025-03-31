@@ -219,6 +219,32 @@ namespace GuestHibajelentesEvvegi.Controllers
             return Ok(await _context.Error_logs.ToListAsync());
         }
 
+        [Route("GetErrorLogDetails/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetErrorLogDetails(int id)
+        {
+            var errorLog = await _context.Error_logs.FindAsync(id);
+            if (errorLog == null)
+            {
+                return NotFound(new { Message = "Error not found." });
+            }
+
+            var baseError = await _context.Errors.FindAsync(errorLog.base_error);
+            var notifiedUser = await _userManager.FindByIdAsync(errorLog.user_id);
+            
+
+            var errorLogDetails = new
+            {
+                errorLog.Id,
+                errorLog.description,
+                base_error = baseError,
+                notified_worker = notifiedUser.UserName,
+                errorLog.created_at
+            };
+
+            return Ok(errorLog);
+        }
+
         // User API's
         //The adding of users is done in the registration API
 
