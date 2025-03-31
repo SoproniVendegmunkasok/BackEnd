@@ -69,10 +69,10 @@ namespace GuestHibajelentesEvvegi.Migrations
                         {
                             Id = 1,
                             assigned_to = "2",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8466),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8774),
                             description = "Error description 1",
                             machine_id = 1,
-                            resolved_at = new DateTime(2025, 3, 31, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8477),
+                            resolved_at = new DateTime(2025, 4, 1, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8783),
                             status = 0,
                             submitted_by = "1"
                         },
@@ -80,10 +80,10 @@ namespace GuestHibajelentesEvvegi.Migrations
                         {
                             Id = 2,
                             assigned_to = "3",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8487),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8806),
                             description = "Error description 2",
                             machine_id = 2,
-                            resolved_at = new DateTime(2025, 4, 1, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8489),
+                            resolved_at = new DateTime(2025, 4, 2, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8810),
                             status = 1,
                             submitted_by = "2"
                         },
@@ -91,10 +91,10 @@ namespace GuestHibajelentesEvvegi.Migrations
                         {
                             Id = 3,
                             assigned_to = "4",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8491),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8814),
                             description = "Error description 3",
                             machine_id = 3,
-                            resolved_at = new DateTime(2025, 4, 2, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8492),
+                            resolved_at = new DateTime(2025, 4, 3, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8816),
                             status = 2,
                             submitted_by = "3"
                         },
@@ -102,10 +102,10 @@ namespace GuestHibajelentesEvvegi.Migrations
                         {
                             Id = 4,
                             assigned_to = "1",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8497),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8823),
                             description = "Error description 4",
                             machine_id = 4,
-                            resolved_at = new DateTime(2025, 4, 3, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8498),
+                            resolved_at = new DateTime(2025, 4, 4, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8826),
                             status = 0,
                             submitted_by = "4"
                         });
@@ -180,109 +180,109 @@ namespace GuestHibajelentesEvvegi.Migrations
                         {
                             Id = 1,
                             assigned_to = "2",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8536),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8893),
                             description = "Task 1 for Error 1",
                             error_id = 1,
-                            resolved_at = new DateTime(2025, 3, 30, 22, 0, 38, 114, DateTimeKind.Local).AddTicks(8542)
+                            resolved_at = new DateTime(2025, 3, 31, 1, 49, 35, 969, DateTimeKind.Local).AddTicks(8902)
                         },
                         new
                         {
                             Id = 2,
                             assigned_to = "2",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8545),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8906),
                             description = "Task 2 for Error 1",
                             error_id = 1,
-                            resolved_at = new DateTime(2025, 3, 30, 23, 0, 38, 114, DateTimeKind.Local).AddTicks(8562)
+                            resolved_at = new DateTime(2025, 3, 31, 2, 49, 35, 969, DateTimeKind.Local).AddTicks(8928)
                         },
                         new
                         {
                             Id = 3,
                             assigned_to = "2",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8564),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8932),
                             description = "Task 3 for Error 1",
                             error_id = 1,
-                            resolved_at = new DateTime(2025, 3, 31, 0, 0, 38, 114, DateTimeKind.Local).AddTicks(8566)
+                            resolved_at = new DateTime(2025, 3, 31, 3, 49, 35, 969, DateTimeKind.Local).AddTicks(8935)
                         },
                         new
                         {
                             Id = 4,
                             assigned_to = "3",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8571),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8939),
                             description = "Task 1 for Error 2",
                             error_id = 2,
-                            resolved_at = new DateTime(2025, 3, 30, 22, 0, 38, 114, DateTimeKind.Local).AddTicks(8572)
+                            resolved_at = new DateTime(2025, 3, 31, 1, 49, 35, 969, DateTimeKind.Local).AddTicks(8941)
                         },
                         new
                         {
                             Id = 5,
                             assigned_to = "3",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8574),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8945),
                             description = "Task 2 for Error 2",
                             error_id = 2,
-                            resolved_at = new DateTime(2025, 3, 30, 23, 0, 38, 114, DateTimeKind.Local).AddTicks(8576)
+                            resolved_at = new DateTime(2025, 3, 31, 2, 49, 35, 969, DateTimeKind.Local).AddTicks(8947)
                         },
                         new
                         {
                             Id = 6,
                             assigned_to = "3",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8578),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8951),
                             description = "Task 3 for Error 2",
                             error_id = 2,
-                            resolved_at = new DateTime(2025, 3, 31, 0, 0, 38, 114, DateTimeKind.Local).AddTicks(8579)
+                            resolved_at = new DateTime(2025, 3, 31, 3, 49, 35, 969, DateTimeKind.Local).AddTicks(8953)
                         },
                         new
                         {
                             Id = 7,
                             assigned_to = "4",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8581),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8957),
                             description = "Task 1 for Error 3",
                             error_id = 3,
-                            resolved_at = new DateTime(2025, 3, 30, 22, 0, 38, 114, DateTimeKind.Local).AddTicks(8583)
+                            resolved_at = new DateTime(2025, 3, 31, 1, 49, 35, 969, DateTimeKind.Local).AddTicks(8959)
                         },
                         new
                         {
                             Id = 8,
                             assigned_to = "4",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8585),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8962),
                             description = "Task 2 for Error 3",
                             error_id = 3,
-                            resolved_at = new DateTime(2025, 3, 30, 23, 0, 38, 114, DateTimeKind.Local).AddTicks(8586)
+                            resolved_at = new DateTime(2025, 3, 31, 2, 49, 35, 969, DateTimeKind.Local).AddTicks(8965)
                         },
                         new
                         {
                             Id = 9,
                             assigned_to = "4",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8588),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8968),
                             description = "Task 3 for Error 3",
                             error_id = 3,
-                            resolved_at = new DateTime(2025, 3, 31, 0, 0, 38, 114, DateTimeKind.Local).AddTicks(8592)
+                            resolved_at = new DateTime(2025, 3, 31, 3, 49, 35, 969, DateTimeKind.Local).AddTicks(8978)
                         },
                         new
                         {
                             Id = 10,
                             assigned_to = "1",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8617),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(9029),
                             description = "Task 1 for Error 4",
                             error_id = 4,
-                            resolved_at = new DateTime(2025, 3, 30, 22, 0, 38, 114, DateTimeKind.Local).AddTicks(8619)
+                            resolved_at = new DateTime(2025, 3, 31, 1, 49, 35, 969, DateTimeKind.Local).AddTicks(9032)
                         },
                         new
                         {
                             Id = 11,
                             assigned_to = "1",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8621),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(9036),
                             description = "Task 2 for Error 4",
                             error_id = 4,
-                            resolved_at = new DateTime(2025, 3, 30, 23, 0, 38, 114, DateTimeKind.Local).AddTicks(8622)
+                            resolved_at = new DateTime(2025, 3, 31, 2, 49, 35, 969, DateTimeKind.Local).AddTicks(9038)
                         },
                         new
                         {
                             Id = 12,
                             assigned_to = "1",
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8624),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(9041),
                             description = "Task 3 for Error 4",
                             error_id = 4,
-                            resolved_at = new DateTime(2025, 3, 31, 0, 0, 38, 114, DateTimeKind.Local).AddTicks(8625)
+                            resolved_at = new DateTime(2025, 3, 31, 3, 49, 35, 969, DateTimeKind.Local).AddTicks(9043)
                         });
                 });
 
@@ -316,7 +316,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                         new
                         {
                             Id = 1,
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8380),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8562),
                             hall = "H1",
                             name = "Machine1",
                             status = 0
@@ -324,7 +324,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                         new
                         {
                             Id = 2,
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8430),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8676),
                             hall = "H2",
                             name = "Machine2",
                             status = 1
@@ -332,7 +332,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                         new
                         {
                             Id = 3,
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8433),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8680),
                             hall = "H3",
                             name = "Machine3",
                             status = 0
@@ -340,7 +340,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                         new
                         {
                             Id = 4,
-                            created_at = new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8435),
+                            created_at = new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8683),
                             hall = "H4",
                             name = "Machine4",
                             status = 1
@@ -421,7 +421,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER1@EXAMPLE.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAELzE0Wrf9HOHKgcIumGnnzT3l4CQa9PAc9pN77mgArUJptgJL/fgkfEu/weeyhTwBQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ0e59BOccJPV0cMaFjZTe4ukIBnk1q874drP2IonPGO336uAGXC6lZbQg6H3uTaLA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "ABC123",
                             TwoFactorEnabled = false,
@@ -437,7 +437,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@EXAMPLE.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEO/F8wkxerv9DZ2NP1go80NewzhfdYoVr55sVBNKtU95YHZ85dZzQMs9zoKmbAaeQQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDVcF43nzOg5TGEUtVIPx1QyjA9pysIZJqodQPSeeIIXFHqepm98KkaOPYYlmAyv9Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "DEF456",
                             TwoFactorEnabled = false,
@@ -453,7 +453,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER3@EXAMPLE.COM",
                             NormalizedUserName = "USER3",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ0vvjT1SYrRYme8Bcf0RVy0XWOjlsFOBeISu2Pi/APVtP1BfC6xKE1b2ExoHBV7YA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECc2D35+TK+4keFInCfSwHv5kPPQ2yngKWWtpp7Ahxkza7hO7pt4+6+2WZIzBUqK3w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "GHI789",
                             TwoFactorEnabled = false,
@@ -469,7 +469,7 @@ namespace GuestHibajelentesEvvegi.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER4@EXAMPLE.COM",
                             NormalizedUserName = "USER4",
-                            PasswordHash = "AQAAAAIAAYagAAAAEC6X/9bLzl4+cfGiFYU95e7PgdjD4qnB4GhPs/XDKcUdei6AFOu65SniU00/Y/gLTQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAnhjBlWOrkl5PltMVJWxDrJrELoxuiCOdm9rjmfdWg8PBe43tc7cfJn37AClHna9A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "JKL012",
                             TwoFactorEnabled = false,
@@ -501,6 +501,26 @@ namespace GuestHibajelentesEvvegi.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            Name = "Linesman",
+                            NormalizedName = "LINESMAN"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            Name = "Repairman",
+                            NormalizedName = "REPAIRMAN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -588,6 +608,28 @@ namespace GuestHibajelentesEvvegi.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "1",
+                            RoleId = "1"
+                        },
+                        new
+                        {
+                            UserId = "2",
+                            RoleId = "2"
+                        },
+                        new
+                        {
+                            UserId = "3",
+                            RoleId = "3"
+                        },
+                        new
+                        {
+                            UserId = "4",
+                            RoleId = "3"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GuestHibajelentesEvvegi.Migrations
 {
     /// <inheritdoc />
-    public partial class asd : Migration
+    public partial class xd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -322,14 +322,24 @@ namespace GuestHibajelentesEvvegi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "1", null, "Admin", "ADMIN" },
+                    { "2", null, "Linesman", "LINESMAN" },
+                    { "3", null, "Repairman", "REPAIRMAN" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "1", 0, "XYZ123", "user1@example.com", true, false, null, "USER1@EXAMPLE.COM", "USER1", "AQAAAAIAAYagAAAAELzE0Wrf9HOHKgcIumGnnzT3l4CQa9PAc9pN77mgArUJptgJL/fgkfEu/weeyhTwBQ==", null, false, "ABC123", false, "user1" },
-                    { "2", 0, "UVW456", "user2@example.com", true, false, null, "USER2@EXAMPLE.COM", "USER2", "AQAAAAIAAYagAAAAEO/F8wkxerv9DZ2NP1go80NewzhfdYoVr55sVBNKtU95YHZ85dZzQMs9zoKmbAaeQQ==", null, false, "DEF456", false, "user2" },
-                    { "3", 0, "RST789", "user3@example.com", true, false, null, "USER3@EXAMPLE.COM", "USER3", "AQAAAAIAAYagAAAAEJ0vvjT1SYrRYme8Bcf0RVy0XWOjlsFOBeISu2Pi/APVtP1BfC6xKE1b2ExoHBV7YA==", null, false, "GHI789", false, "user3" },
-                    { "4", 0, "OPQ012", "user4@example.com", true, false, null, "USER4@EXAMPLE.COM", "USER4", "AQAAAAIAAYagAAAAEC6X/9bLzl4+cfGiFYU95e7PgdjD4qnB4GhPs/XDKcUdei6AFOu65SniU00/Y/gLTQ==", null, false, "JKL012", false, "user4" }
+                    { "1", 0, "XYZ123", "user1@example.com", true, false, null, "USER1@EXAMPLE.COM", "USER1", "AQAAAAIAAYagAAAAEJ0e59BOccJPV0cMaFjZTe4ukIBnk1q874drP2IonPGO336uAGXC6lZbQg6H3uTaLA==", null, false, "ABC123", false, "user1" },
+                    { "2", 0, "UVW456", "user2@example.com", true, false, null, "USER2@EXAMPLE.COM", "USER2", "AQAAAAIAAYagAAAAEDVcF43nzOg5TGEUtVIPx1QyjA9pysIZJqodQPSeeIIXFHqepm98KkaOPYYlmAyv9Q==", null, false, "DEF456", false, "user2" },
+                    { "3", 0, "RST789", "user3@example.com", true, false, null, "USER3@EXAMPLE.COM", "USER3", "AQAAAAIAAYagAAAAECc2D35+TK+4keFInCfSwHv5kPPQ2yngKWWtpp7Ahxkza7hO7pt4+6+2WZIzBUqK3w==", null, false, "GHI789", false, "user3" },
+                    { "4", 0, "OPQ012", "user4@example.com", true, false, null, "USER4@EXAMPLE.COM", "USER4", "AQAAAAIAAYagAAAAEAnhjBlWOrkl5PltMVJWxDrJrELoxuiCOdm9rjmfdWg8PBe43tc7cfJn37AClHna9A==", null, false, "JKL012", false, "user4" }
                 });
 
             migrationBuilder.InsertData(
@@ -337,10 +347,21 @@ namespace GuestHibajelentesEvvegi.Migrations
                 columns: new[] { "Id", "created_at", "hall", "name", "status" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8380), "H1", "Machine1", 0 },
-                    { 2, new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8430), "H2", "Machine2", 1 },
-                    { 3, new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8433), "H3", "Machine3", 0 },
-                    { 4, new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8435), "H4", "Machine4", 1 }
+                    { 1, new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8562), "H1", "Machine1", 0 },
+                    { 2, new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8676), "H2", "Machine2", 1 },
+                    { 3, new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8680), "H3", "Machine3", 0 },
+                    { 4, new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8683), "H4", "Machine4", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "1", "1" },
+                    { "2", "2" },
+                    { "3", "3" },
+                    { "3", "4" }
                 });
 
             migrationBuilder.InsertData(
@@ -348,10 +369,10 @@ namespace GuestHibajelentesEvvegi.Migrations
                 columns: new[] { "Id", "assigned_to", "created_at", "description", "machine_id", "resolved_at", "status", "submitted_by" },
                 values: new object[,]
                 {
-                    { 1, "2", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8466), "Error description 1", 1, new DateTime(2025, 3, 31, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8477), 0, "1" },
-                    { 2, "3", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8487), "Error description 2", 2, new DateTime(2025, 4, 1, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8489), 1, "2" },
-                    { 3, "4", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8491), "Error description 3", 3, new DateTime(2025, 4, 2, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8492), 2, "3" },
-                    { 4, "1", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8497), "Error description 4", 4, new DateTime(2025, 4, 3, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8498), 0, "4" }
+                    { 1, "2", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8774), "Error description 1", 1, new DateTime(2025, 4, 1, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8783), 0, "1" },
+                    { 2, "3", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8806), "Error description 2", 2, new DateTime(2025, 4, 2, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8810), 1, "2" },
+                    { 3, "4", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8814), "Error description 3", 3, new DateTime(2025, 4, 3, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8816), 2, "3" },
+                    { 4, "1", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8823), "Error description 4", 4, new DateTime(2025, 4, 4, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8826), 0, "4" }
                 });
 
             migrationBuilder.InsertData(
@@ -359,18 +380,18 @@ namespace GuestHibajelentesEvvegi.Migrations
                 columns: new[] { "Id", "assigned_to", "created_at", "description", "error_id", "resolved_at" },
                 values: new object[,]
                 {
-                    { 1, "2", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8536), "Task 1 for Error 1", 1, new DateTime(2025, 3, 30, 22, 0, 38, 114, DateTimeKind.Local).AddTicks(8542) },
-                    { 2, "2", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8545), "Task 2 for Error 1", 1, new DateTime(2025, 3, 30, 23, 0, 38, 114, DateTimeKind.Local).AddTicks(8562) },
-                    { 3, "2", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8564), "Task 3 for Error 1", 1, new DateTime(2025, 3, 31, 0, 0, 38, 114, DateTimeKind.Local).AddTicks(8566) },
-                    { 4, "3", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8571), "Task 1 for Error 2", 2, new DateTime(2025, 3, 30, 22, 0, 38, 114, DateTimeKind.Local).AddTicks(8572) },
-                    { 5, "3", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8574), "Task 2 for Error 2", 2, new DateTime(2025, 3, 30, 23, 0, 38, 114, DateTimeKind.Local).AddTicks(8576) },
-                    { 6, "3", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8578), "Task 3 for Error 2", 2, new DateTime(2025, 3, 31, 0, 0, 38, 114, DateTimeKind.Local).AddTicks(8579) },
-                    { 7, "4", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8581), "Task 1 for Error 3", 3, new DateTime(2025, 3, 30, 22, 0, 38, 114, DateTimeKind.Local).AddTicks(8583) },
-                    { 8, "4", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8585), "Task 2 for Error 3", 3, new DateTime(2025, 3, 30, 23, 0, 38, 114, DateTimeKind.Local).AddTicks(8586) },
-                    { 9, "4", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8588), "Task 3 for Error 3", 3, new DateTime(2025, 3, 31, 0, 0, 38, 114, DateTimeKind.Local).AddTicks(8592) },
-                    { 10, "1", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8617), "Task 1 for Error 4", 4, new DateTime(2025, 3, 30, 22, 0, 38, 114, DateTimeKind.Local).AddTicks(8619) },
-                    { 11, "1", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8621), "Task 2 for Error 4", 4, new DateTime(2025, 3, 30, 23, 0, 38, 114, DateTimeKind.Local).AddTicks(8622) },
-                    { 12, "1", new DateTime(2025, 3, 30, 21, 0, 38, 114, DateTimeKind.Local).AddTicks(8624), "Task 3 for Error 4", 4, new DateTime(2025, 3, 31, 0, 0, 38, 114, DateTimeKind.Local).AddTicks(8625) }
+                    { 1, "2", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8893), "Task 1 for Error 1", 1, new DateTime(2025, 3, 31, 1, 49, 35, 969, DateTimeKind.Local).AddTicks(8902) },
+                    { 2, "2", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8906), "Task 2 for Error 1", 1, new DateTime(2025, 3, 31, 2, 49, 35, 969, DateTimeKind.Local).AddTicks(8928) },
+                    { 3, "2", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8932), "Task 3 for Error 1", 1, new DateTime(2025, 3, 31, 3, 49, 35, 969, DateTimeKind.Local).AddTicks(8935) },
+                    { 4, "3", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8939), "Task 1 for Error 2", 2, new DateTime(2025, 3, 31, 1, 49, 35, 969, DateTimeKind.Local).AddTicks(8941) },
+                    { 5, "3", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8945), "Task 2 for Error 2", 2, new DateTime(2025, 3, 31, 2, 49, 35, 969, DateTimeKind.Local).AddTicks(8947) },
+                    { 6, "3", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8951), "Task 3 for Error 2", 2, new DateTime(2025, 3, 31, 3, 49, 35, 969, DateTimeKind.Local).AddTicks(8953) },
+                    { 7, "4", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8957), "Task 1 for Error 3", 3, new DateTime(2025, 3, 31, 1, 49, 35, 969, DateTimeKind.Local).AddTicks(8959) },
+                    { 8, "4", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8962), "Task 2 for Error 3", 3, new DateTime(2025, 3, 31, 2, 49, 35, 969, DateTimeKind.Local).AddTicks(8965) },
+                    { 9, "4", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(8968), "Task 3 for Error 3", 3, new DateTime(2025, 3, 31, 3, 49, 35, 969, DateTimeKind.Local).AddTicks(8978) },
+                    { 10, "1", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(9029), "Task 1 for Error 4", 4, new DateTime(2025, 3, 31, 1, 49, 35, 969, DateTimeKind.Local).AddTicks(9032) },
+                    { 11, "1", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(9036), "Task 2 for Error 4", 4, new DateTime(2025, 3, 31, 2, 49, 35, 969, DateTimeKind.Local).AddTicks(9038) },
+                    { 12, "1", new DateTime(2025, 3, 31, 0, 49, 35, 969, DateTimeKind.Local).AddTicks(9041), "Task 3 for Error 4", 4, new DateTime(2025, 3, 31, 3, 49, 35, 969, DateTimeKind.Local).AddTicks(9043) }
                 });
 
             migrationBuilder.CreateIndex(

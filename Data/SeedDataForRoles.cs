@@ -12,7 +12,7 @@ public class SeedDataForRoles
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
         // Define the roles
-        string[] roleNames = { "admin", "sori alkalmazott", "szerelő" };
+        string[] roleNames = { "Admin", "Linesman", "Repairman" };
         IdentityResult roleResult;
 
         foreach (var roleName in roleNames)

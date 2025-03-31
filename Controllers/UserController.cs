@@ -42,18 +42,17 @@ namespace GuestHibajelentesEvvegi.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginUser([FromBody] LoginModel model)
         {
+
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 return Unauthorized();
             }
 
-            // For demo purposes - in a real app, get this from your user management system
-            var userId = "123";
-            var roles = new[] { "User" };
-
+            var userRoles = await _userManager.GetRolesAsync(user);
+            
             // Generate tokens
-            var (accessToken, refreshToken) = _AuthService.GenerateTokens(userId, model.Username, roles);
+            var (accessToken, refreshToken) = _AuthService.GenerateTokens(user.Id, model.Username, userRoles);
 
             // Set refresh token in HTTP-only cookie
             Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
@@ -68,10 +67,10 @@ namespace GuestHibajelentesEvvegi.Controllers
             return Ok(new
             {
                 AccessToken = accessToken,
-                ExpiresIn = 900 // 15 minutes in seconds
+                ExpiresIn = 900, // 15 minutes in seconds
             });
 
-            
+
             //Régi kód
 
             //User user = await _userManager.FindByNameAsync(name);
@@ -98,6 +97,11 @@ namespace GuestHibajelentesEvvegi.Controllers
 
         public async Task<IActionResult> LogoutUser()
         {
+            
+            _signInManager.SignOutAsync();
+            Response.Cookies.Delete("refreshToken");
+            
+
             await _signInManager.SignOutAsync();
             Response.Cookies.Delete("refreshToken");
             return Ok();

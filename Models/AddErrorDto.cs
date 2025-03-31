@@ -5,15 +5,16 @@ namespace GuestHibajelentesEvvegi.Models
     public class AddErrorDto
     {
         [Required]
-        public string Description { get; set; }
+        public string description { get; set; }
 
         [Required]
-        public string SubmittedBy { get; set; }
+        public string submitted_by { get; set; }
 
         [Required]
-        public int MachineId { get; set; }
+        public int machine_id { get; set; }
+        
 
         [Required]
-        public string AssignedTo { get; set; }
+        public string assigned_to { get; set; }
     }
 }
