@@ -90,7 +90,7 @@ namespace GuestHibajelentesEvvegi.Controllers
                 error.created_at
             };
 
-            return Ok(error);
+            return Ok(errorDetails);
         }
     }
 }
