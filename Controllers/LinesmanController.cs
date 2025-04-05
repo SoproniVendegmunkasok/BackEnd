@@ -56,7 +56,7 @@ namespace GuestHibajelentesEvvegi.Controllers
             var hibasMachine = await _context.Machines.FindAsync(model.machine_id);
             if (hibasMachine != null)
             {
-                hibasMachine.status = Status_machine.hibas; // Update the machine status
+                hibasMachine.status = Status_machine.hibas; 
             }
 
             await _context.SaveChangesAsync();

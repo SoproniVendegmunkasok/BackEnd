@@ -58,16 +58,16 @@ namespace GuestHibajelentesEvvegi.Controllers
             Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true, // Set to true in production with HTTPS
+                Secure = true, 
                 SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7) // Refresh token with longer lifetime
+                Expires = DateTime.UtcNow.AddDays(7) 
             });
 
             // Return access token in response body
             return Ok(new
             {
                 AccessToken = accessToken,
-                ExpiresIn = 900, // 15 minutes in seconds
+                ExpiresIn = 900, 
             });
 
 
@@ -168,13 +168,11 @@ namespace GuestHibajelentesEvvegi.Controllers
 
             try
             {
-                // Extract claims from the expired access token
                 var principal = _AuthService.GetPrincipalFromExpiredToken(accessToken);
                 var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 var username = principal.FindFirst(ClaimTypes.Name)?.Value;
                 var roles = principal.FindAll(ClaimTypes.Role).Select(c => c.Value);
 
-                // Generate new tokens
                 var newTokens = _AuthService.GenerateTokens(userId, username, roles);
 
                 // Set new refresh token in cookie
@@ -186,11 +184,10 @@ namespace GuestHibajelentesEvvegi.Controllers
                     Expires = DateTime.UtcNow.AddDays(7)
                 });
 
-                // Return new access token
                 return Ok(new
                 {
                     AccessToken = newTokens.accessToken,
-                    ExpiresIn = 900 // 15 minutes in seconds
+                    ExpiresIn = 900 
                 });
             }
             catch (Exception)

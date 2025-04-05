@@ -150,7 +150,6 @@ namespace GuestHibajelentesEvvegi.Controllers
             }
             catch (DbUpdateException ex)
             {
-                // Log the exception
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An error occurred while adding the machine." });
             }
 
@@ -185,7 +184,6 @@ namespace GuestHibajelentesEvvegi.Controllers
             }
             catch (DbUpdateException ex)
             {
-                // Log the exception
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An error occurred while updating the machine." });
             }
 
@@ -316,12 +314,10 @@ namespace GuestHibajelentesEvvegi.Controllers
                 return NotFound(new { Message = "Error not found." });
             }
 
-            // Update the existing error with the new values
             existingError.description = error.description;
             existingError.status = error.status;
             existingError.assigned_to = error.assigned_to;
             existingError.machine_id = error.machine_id;
-            // Update other fields as necessary
 
             _context.Errors.Update(existingError);
             try
@@ -330,7 +326,6 @@ namespace GuestHibajelentesEvvegi.Controllers
             }
             catch (DbUpdateException ex)
             {
-                // Log the exception
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An error occurred while updating the error." });
             }
 

@@ -11,7 +11,6 @@ public class SeedDataForRoles
     {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-        // Define the roles
         string[] roleNames = { "Admin", "Linesman", "Repairman" };
         IdentityResult roleResult;
 
@@ -20,7 +19,6 @@ public class SeedDataForRoles
             var roleExist = await roleManager.RoleExistsAsync(roleName);
             if (!roleExist)
             {
-                // Create the roles if they do not exist
                 roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
             }
         }

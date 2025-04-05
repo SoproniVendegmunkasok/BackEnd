@@ -43,7 +43,6 @@ namespace GuestHibajelentesEvvegi.Data
                 new User { Id = "2", UserName = "user2", NormalizedUserName = "USER2", Email = "user2@example.com", NormalizedEmail = "USER2@EXAMPLE.COM", EmailConfirmed = true, PasswordHash = passwordHasher.HashPassword(null, plainTextPassword2), SecurityStamp = "DEF456", ConcurrencyStamp = "UVW456" },
                 new User { Id = "3", UserName = "user3", NormalizedUserName = "USER3", Email = "user3@example.com", NormalizedEmail = "USER3@EXAMPLE.COM", EmailConfirmed = true, PasswordHash = passwordHasher.HashPassword(null, plainTextPassword3), SecurityStamp = "GHI789", ConcurrencyStamp = "RST789" },
                 new User { Id = "4", UserName = "user4", NormalizedUserName = "USER4", Email = "user4@example.com", NormalizedEmail = "USER4@EXAMPLE.COM", EmailConfirmed = true, PasswordHash = passwordHasher.HashPassword(null, plainTextPassword4), SecurityStamp = "JKL012", ConcurrencyStamp = "OPQ012" }
-            // Add more users here as needed
             );
 
             // Assign Roles to Users
@@ -60,7 +59,6 @@ namespace GuestHibajelentesEvvegi.Data
                 new Machine { Id = 3, name = "Machine3", status = Status_machine.funkcionalis, hall = "H3", created_at = DateTime.Now },
                 new Machine { Id = 4, name = "Machine4", status = Status_machine.hibas, hall = "H4", created_at = DateTime.Now }
 
-            // Add more machines here as needed
             );
 
             builder.Entity<Error>().HasData(
@@ -70,7 +68,6 @@ namespace GuestHibajelentesEvvegi.Data
                 new Error { Id = 3, status = Status_error.elvegzett, description = "Error description 3", submitted_by = "3", machine_id = 3, assigned_to = "4", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(3) },
                 new Error { Id = 4, status = Status_error.uj, description = "Error description 4", submitted_by = "4", machine_id = 4, assigned_to = "1", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(4) }
 
-            // Add more errors here as needed
             );
 
             builder.Entity<ErrorTask>().HasData(
