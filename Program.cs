@@ -2,6 +2,7 @@ using System.Text;
 using GuestHibajelentesEvvegi.Data;
 using GuestHibajelentesEvvegi.Models;
 using GuestHibajelentesEvvegi.Services;
+using GuestHibajelentesEvvegi.SignalRHubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -93,6 +94,10 @@ namespace GuestHibajelentesEvvegi
             app.UseAuthorization();
             app.MapControllers();
             app.UseCors("AllowAnyOrigin");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ErrorHub>("/errorHub");
+            });
 
             app.Run();
         }
