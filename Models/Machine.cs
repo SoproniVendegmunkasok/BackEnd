@@ -1,6 +1,6 @@
 ﻿namespace GuestHibajelentesEvvegi.Models
 {
-    public enum Status_machine { funkcionalis, hibas }
+    public enum Status_machine {functional, faulty}
     public class Machine
     {
         public int Id { get; set; }

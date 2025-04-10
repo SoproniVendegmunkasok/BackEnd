@@ -36,7 +36,7 @@ namespace GuestHibajelentesEvvegi.Services
             // Create access token
             var accessToken = CreateAccessToken(claims);
 
-            // Create refresh token (typically a random string)
+            // Create refresh token
             var refreshToken = GenerateRefreshToken();
 
             return (accessToken, refreshToken);
@@ -51,7 +51,7 @@ namespace GuestHibajelentesEvvegi.Services
                 issuer: _configuration["JWT:Issuer"],
                 audience: _configuration["JWT:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15), // Short-lived access token
+                expires: DateTime.UtcNow.AddMinutes(15),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -59,14 +59,13 @@ namespace GuestHibajelentesEvvegi.Services
 
         private string GenerateRefreshToken()
         {
-            // Simple implementation - in production use a more secure method
+            // Simple implementation for development, use something else in actual use, WITH LOVE: TOM
             return Guid.NewGuid().ToString();
         }
 
         public bool ValidateRefreshToken(string refreshToken)
         {
-            // In a real application, validate against stored refresh tokens
-            // This is a placeholder for demonstration
+            //Simple validation for development
             return !string.IsNullOrEmpty(refreshToken);
         }
 
@@ -79,7 +78,7 @@ namespace GuestHibajelentesEvvegi.Services
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(_configuration["JWT:SecretKey"])),
-                ValidateLifetime = false // We don't care about the token's expiration here
+                ValidateLifetime = false 
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

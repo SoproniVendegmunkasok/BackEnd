@@ -140,34 +140,56 @@ namespace GuestHibajelentesEvvegi.Controllers
         [HttpPost]
         [Route("AddMachine")]
 
-        public async Task<IActionResult> AddMachine([FromBody] Machine machine)
+        public async Task<IActionResult> AddMachine([FromBody] MachineDto machine)
         {
-            machine.created_at = DateTime.Now;
-            _context.Machines.Add(machine);
-            try
+            if (!ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                // Log the exception
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An error occurred while adding the machine." });
+                BadRequest(ModelState);
             }
 
+            var newmachine = new Machine
+            {
+                status = Status_machine.functional,
+                created_at= DateTime.Now,
+                name=machine.name,
+                hall= machine.hall
+            };
+
+            _context.Machines.Add(newmachine);
+            await _context.SaveChangesAsync();
             return Ok(new { Message = "Machine added successfully." });
         }
 
-        [HttpPut]
-        [Route("UpdateMachine")]
 
-        public async Task<IActionResult> UpdateMachine([FromBody] Machine machine)
+
+        [HttpGet]
+        [Route("GetMachinebyId/{id}")]
+        public async Task<IActionResult> GetMachinebyId(int id)
+        {
+            var Machine = await _context.Machines.FindAsync(id);
+            if (Machine == null)
+            {
+                return NotFound(new { Message = "Machine not found." });
+            }
+            else
+            {
+                return Ok(Machine);
+            }
+
+        }
+
+
+
+        [HttpPut]
+        [Route("UpdateMachine/{id}")]
+        public async Task<IActionResult> UpdateMachine([FromBody] Machine machine, int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var existingMachine = await _context.Machines.FindAsync(machine.Id);
+            var existingMachine = await _context.Machines.FindAsync(id);
             if (existingMachine == null)
             {
                 return NotFound(new { Message = "Machine not found." });
@@ -185,7 +207,6 @@ namespace GuestHibajelentesEvvegi.Controllers
             }
             catch (DbUpdateException ex)
             {
-                // Log the exception
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An error occurred while updating the machine." });
             }
 
@@ -217,6 +238,32 @@ namespace GuestHibajelentesEvvegi.Controllers
         public async Task<IActionResult> AllErrorLogs()
         {
             return Ok(await _context.Error_logs.ToListAsync());
+        }
+
+        [Route("GetErrorLogDetails/{id}")]
+        [HttpGet]
+        public async Task<IActionResult> GetErrorLogDetails(int id)
+        {
+            var errorLog = await _context.Error_logs.FindAsync(id);
+            if (errorLog == null)
+            {
+                return NotFound(new { Message = "Error not found." });
+            }
+
+            var baseError = await _context.Errors.FindAsync(errorLog.base_error);
+            var notifiedUser = await _userManager.FindByIdAsync(errorLog.user_id);
+            
+
+            var errorLogDetails = new
+            {
+                errorLog.Id,
+                errorLog.description,
+                base_error = baseError,
+                notified_worker = notifiedUser.UserName,
+                errorLog.created_at
+            };
+
+            return Ok(errorLog);
         }
 
         // User API's
@@ -290,12 +337,10 @@ namespace GuestHibajelentesEvvegi.Controllers
                 return NotFound(new { Message = "Error not found." });
             }
 
-            // Update the existing error with the new values
             existingError.description = error.description;
             existingError.status = error.status;
             existingError.assigned_to = error.assigned_to;
             existingError.machine_id = error.machine_id;
-            // Update other fields as necessary
 
             _context.Errors.Update(existingError);
             try
@@ -304,7 +349,6 @@ namespace GuestHibajelentesEvvegi.Controllers
             }
             catch (DbUpdateException ex)
             {
-                // Log the exception
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An error occurred while updating the error." });
             }
 
