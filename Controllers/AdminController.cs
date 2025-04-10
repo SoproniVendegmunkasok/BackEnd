@@ -140,56 +140,33 @@ namespace GuestHibajelentesEvvegi.Controllers
         [HttpPost]
         [Route("AddMachine")]
 
-        public async Task<IActionResult> AddMachine([FromBody] MachineDto machine)
+        public async Task<IActionResult> AddMachine([FromBody] Machine machine)
         {
-            if (!ModelState.IsValid)
+            machine.created_at = DateTime.Now;
+            _context.Machines.Add(machine);
+            try
             {
-                BadRequest(ModelState);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An error occurred while adding the machine." });
             }
 
-            var newmachine = new Machine
-            {
-                status = Status_machine.functional,
-                created_at= DateTime.Now,
-                name=machine.name,
-                hall= machine.hall
-            };
-
-            _context.Machines.Add(newmachine);
-            await _context.SaveChangesAsync();
             return Ok(new { Message = "Machine added successfully." });
         }
 
-
-
-        [HttpGet]
-        [Route("GetMachinebyId/{id}")]
-        public async Task<IActionResult> GetMachinebyId(int id)
-        {
-            var Machine = await _context.Machines.FindAsync(id);
-            if (Machine == null)
-            {
-                return NotFound(new { Message = "Machine not found." });
-            }
-            else
-            {
-                return Ok(Machine);
-            }
-
-        }
-
-
-
         [HttpPut]
-        [Route("UpdateMachine/{id}")]
-        public async Task<IActionResult> UpdateMachine([FromBody] Machine machine, int id)
+        [Route("UpdateMachine")]
+
+        public async Task<IActionResult> UpdateMachine([FromBody] Machine machine)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var existingMachine = await _context.Machines.FindAsync(id);
+            var existingMachine = await _context.Machines.FindAsync(machine.Id);
             if (existingMachine == null)
             {
                 return NotFound(new { Message = "Machine not found." });

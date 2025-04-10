@@ -94,6 +94,10 @@ namespace GuestHibajelentesEvvegi
             app.UseAuthorization();
             app.MapControllers();
             app.UseCors("AllowAnyOrigin");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ErrorHub>("/errorHub");
+            });
 
             app.Run();
         }
