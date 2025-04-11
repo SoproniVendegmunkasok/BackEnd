@@ -5,9 +5,11 @@ using AutoMapper;
 using GuestHibajelentesEvvegi.Data;
 using GuestHibajelentesEvvegi.Models;
 using GuestHibajelentesEvvegi.Services;
+using GuestHibajelentesEvvegi.SignalRHubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -23,11 +25,12 @@ namespace GuestHibajelentesEvvegi.Controllers
         private readonly IMapper _Automapper;
         private readonly AppDbContext _context;
         private readonly IAuthService _AuthService;
+        private readonly IHubContext<ErrorHub> _hubContext;
 
         RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper automapper, AppDbContext context, IAuthService AuthService)
+        public UserController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IMapper automapper, AppDbContext context, IAuthService AuthService, IHubContext<ErrorHub> hubContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -36,6 +39,7 @@ namespace GuestHibajelentesEvvegi.Controllers
             _Automapper = automapper;
             _context = context;
             _AuthService = AuthService;
+            _hubContext = hubContext;
         }
 
         [Route("Login")]
@@ -50,24 +54,21 @@ namespace GuestHibajelentesEvvegi.Controllers
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
-            
-            // Generate tokens
+
             var (accessToken, refreshToken) = _AuthService.GenerateTokens(user.Id, model.Username, userRoles);
 
-            // Set refresh token in HTTP-only cookie
             Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = true, 
+                Secure = true,
                 SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7) 
+                Expires = DateTime.UtcNow.AddDays(7)
             });
 
-            // Return access token in response body
             return Ok(new
             {
                 AccessToken = accessToken,
-                ExpiresIn = 900, 
+                ExpiresIn = 900,
             });
 
 
@@ -97,13 +98,14 @@ namespace GuestHibajelentesEvvegi.Controllers
 
         public async Task<IActionResult> LogoutUser()
         {
-            
-            _signInManager.SignOutAsync();
-            Response.Cookies.Delete("refreshToken");
-            
-
             await _signInManager.SignOutAsync();
             Response.Cookies.Delete("refreshToken");
+
+            await _hubContext.Clients.All.SendAsync("UserLoggedOut", new
+            {
+                Message = "A user has logged out.",
+                UserId = User.Identity?.Name
+            });
             return Ok();
         }
 

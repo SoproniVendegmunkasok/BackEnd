@@ -1,5 +1,6 @@
 ﻿using GuestHibajelentesEvvegi.Data;
 using GuestHibajelentesEvvegi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -137,6 +138,29 @@ namespace GuestHibajelentesEvvegi.Controllers
             return Ok(await _context.Machines.ToListAsync());
         }
 
+        [HttpGet]
+        [Route("GetMachineById/{id}")]
+        public async Task<IActionResult> GetMachineDetails(int id)
+        {
+            var machine = await _context.Machines.FindAsync(id);
+            if (machine == null)
+            {
+                return NotFound(new { Message = "Machine not found." });
+            }
+
+
+
+            var machineDetails = new
+            {
+                machine.name,
+                machine.status,
+                machine.hall,
+                machine.created_at
+            };
+
+            return Ok(machineDetails);
+        }
+
         [HttpPost]
         [Route("AddMachine")]
 
@@ -157,16 +181,16 @@ namespace GuestHibajelentesEvvegi.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateMachine")]
+        [Route("UpdateMachine/{id}")]
 
-        public async Task<IActionResult> UpdateMachine([FromBody] Machine machine)
+        public async Task<IActionResult> UpdateMachine([FromBody] Machine machine, int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var existingMachine = await _context.Machines.FindAsync(machine.Id);
+            var existingMachine = await _context.Machines.FindAsync(id);
             if (existingMachine == null)
             {
                 return NotFound(new { Message = "Machine not found." });
@@ -240,7 +264,7 @@ namespace GuestHibajelentesEvvegi.Controllers
                 errorLog.created_at
             };
 
-            return Ok(errorLog);
+            return Ok(errorLogDetails);
         }
 
         // User API's

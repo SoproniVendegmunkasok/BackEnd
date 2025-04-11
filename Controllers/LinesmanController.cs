@@ -1,8 +1,13 @@
 ﻿using GuestHibajelentesEvvegi.Data;
 using GuestHibajelentesEvvegi.Models;
+using GuestHibajelentesEvvegi.SignalRHubs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace GuestHibajelentesEvvegi.Controllers
 {
@@ -12,10 +17,12 @@ namespace GuestHibajelentesEvvegi.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<User> _userManager;
-        public LinesmanController(AppDbContext context, UserManager<User> userManager)
+        private readonly IHubContext<ErrorHub> _hubContext;
+        public LinesmanController(AppDbContext context, UserManager<User> userManager, IHubContext<ErrorHub> hubContext)
         {
             _context = context;
             _userManager = userManager;
+            _hubContext = hubContext;
         }
 
         [Route("AddError")]
@@ -56,10 +63,12 @@ namespace GuestHibajelentesEvvegi.Controllers
             var hibasMachine = await _context.Machines.FindAsync(model.machine_id);
             if (hibasMachine != null)
             {
-                hibasMachine.status = Status_machine.hibas; 
+                hibasMachine.status = Status_machine.faulty; 
             }
 
             await _context.SaveChangesAsync();
+
+            await _hubContext.Clients.All.SendAsync("ErrorAdded", error);
 
             return Ok(new { Message = "Error added successfully.", ErrorId = error.Id });
 

@@ -20,7 +20,7 @@ namespace GuestHibajelentesEvvegi
             
 
             builder.Services.AddControllers();
-            
+            builder.Services.AddSignalR();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<AppDbContext>(options => 
@@ -30,9 +30,10 @@ namespace GuestHibajelentesEvvegi
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAnyOrigin",
-                    builder => builder.AllowAnyOrigin()
-                                      .AllowAnyMethod()
-                                      .AllowAnyHeader());
+                    builder => builder.SetIsOriginAllowed(origin => true) // Allow any origin
+                                       .AllowAnyMethod()
+                                       .AllowAnyHeader()
+                                       .AllowCredentials());
             });
 
             builder.Services.AddIdentity<User, IdentityRole>(options =>
@@ -70,6 +71,20 @@ namespace GuestHibajelentesEvvegi
                     ValidAudience = builder.Configuration["JWT:Audience"],
                     IssuerSigningKey = key
                 };
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["JWT"];
+                        var path = context.HttpContext.Request.Path;
+
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/errorHub"))
+                        {
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             builder.Services.AddSingleton<IAuthService, AuthService>();
@@ -90,14 +105,12 @@ namespace GuestHibajelentesEvvegi
             }
 
             app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             app.UseCors("AllowAnyOrigin");
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapHub<ErrorHub>("/errorHub");
-            });
+            app.MapHub<ErrorHub>("/errorHub").RequireCors();
 
             app.Run();
         }
