@@ -23,8 +23,9 @@ namespace GuestHibajelentesEvvegi.SignalRHubs
         }
         public override Task OnConnectedAsync()
         {
-            var userId = Context.UserIdentifier;
+            var userId = Context.UserIdentifier ?? Context.ConnectionId;
             Console.WriteLine($"User {userId} connected.");
+            Clients.All.SendAsync("UserConnected", userId);
             return base.OnConnectedAsync();
         }
 
