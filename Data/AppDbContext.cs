@@ -63,10 +63,10 @@ namespace GuestHibajelentesEvvegi.Data
 
             builder.Entity<Error>().HasData(
 
-                new Error { Id = 1, status = Status_error.uj, description = "Error description 1", submitted_by = "1", machine_id = 1, assigned_to = "2", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(1) },
-                new Error { Id = 2, status = Status_error.javitas_alatt, description = "Error description 2", submitted_by = "2", machine_id = 2, assigned_to = "3", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(2) },
-                new Error { Id = 3, status = Status_error.elvegzett, description = "Error description 3", submitted_by = "3", machine_id = 3, assigned_to = "4", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(3) },
-                new Error { Id = 4, status = Status_error.uj, description = "Error description 4", submitted_by = "4", machine_id = 4, assigned_to = "1", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(4) }
+                new Error { Id = 1, status = Status_error.Unbegun, description = "Error description 1", submitted_by = "1", machine_id = 1, assigned_to = "2", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(1) },
+                new Error { Id = 2, status = Status_error.UnderRepair, description = "Error description 2", submitted_by = "2", machine_id = 2, assigned_to = "3", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(2) },
+                new Error { Id = 3, status = Status_error.Finished, description = "Error description 3", submitted_by = "3", machine_id = 3, assigned_to = "4", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(3) },
+                new Error { Id = 4, status = Status_error.Unbegun, description = "Error description 4", submitted_by = "4", machine_id = 4, assigned_to = "1", created_at = DateTime.Now, resolved_at = DateTime.Now.AddDays(4) }
 
             );
 

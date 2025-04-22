@@ -2,7 +2,7 @@
 
 namespace GuestHibajelentesEvvegi.Models
 {
-    public enum Status_error { uj, javitas_alatt, elvegzett }
+    public enum Status_error { Unbegun, UnderRepair, Finished }
     public class Error
     {
         public int Id { get; set; }
