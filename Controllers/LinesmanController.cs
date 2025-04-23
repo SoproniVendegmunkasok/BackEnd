@@ -66,6 +66,8 @@ namespace GuestHibajelentesEvvegi.Controllers
                 hibasMachine.status = Status_machine.faulty; 
             }
 
+            //Make an errorLog here (via function call, the function need to be made though)
+
             await _context.SaveChangesAsync();
 
             await _hubContext.Clients.All.SendAsync("ErrorAdded", error);
@@ -100,6 +102,42 @@ namespace GuestHibajelentesEvvegi.Controllers
             };
 
             return Ok(errorDetails);
+        }
+
+        [Route("AddErrorTask/{id}")]
+        [HttpPost]
+
+        public async Task<IActionResult> AddErrorTask([FromBody] AddErrorTaskDto model, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var assignedUser = await _userManager.FindByNameAsync(model.assigned_to);
+            if (assignedUser == null)
+            {
+                return BadRequest("Assigned user not found.");
+            }
+
+            var errorTask = new ErrorTask
+            {
+                status = 0,
+                description = model.description,
+                assigned_to = assignedUser.Id,
+                error_id = id,
+                created_at = DateTime.UtcNow,
+            };
+
+            await _context.Tasks.AddAsync(errorTask);
+
+            //Make an errorLog here (via function call, the function need to be made though)
+
+            await _context.SaveChangesAsync();
+
+            await _hubContext.Clients.All.SendAsync("ErrorTaskAdded", errorTask);
+
+            return Ok(new { Message = "Error added successfully.", ErrorTaskId = errorTask.Id });
         }
     }
 }

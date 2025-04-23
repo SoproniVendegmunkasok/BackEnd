@@ -2,9 +2,11 @@
 
 namespace GuestHibajelentesEvvegi.Models
 {
+    public enum Status_ErrorTask { UnderChecking, Functioned, CausedIssue }
     public class ErrorTask
     {
         public int Id { get; set; }
+        public Status_ErrorTask status { get; set; }
 
         public string description { get; set; }
 
