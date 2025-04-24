@@ -274,7 +274,22 @@ namespace GuestHibajelentesEvvegi.Controllers
         [Route("GetAllUsers")]
         public async Task<IActionResult> AllUsers()
         {
-            return Ok(await _userManager.Users.ToListAsync());
+            var users = await _userManager.Users.ToListAsync();
+            var usersWithRoles = new List<object>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                usersWithRoles.Add(new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    Roles = roles
+                });
+            }
+
+            return Ok(usersWithRoles);
         }
 
 

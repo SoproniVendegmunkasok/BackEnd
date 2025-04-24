@@ -1,5 +1,6 @@
 ﻿using GuestHibajelentesEvvegi.Data;
 using GuestHibajelentesEvvegi.Models;
+using GuestHibajelentesEvvegi.Services;
 using GuestHibajelentesEvvegi.SignalRHubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,11 +19,14 @@ namespace GuestHibajelentesEvvegi.Controllers
         private readonly AppDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IHubContext<ErrorHub> _hubContext;
-        public LinesmanController(AppDbContext context, UserManager<User> userManager, IHubContext<ErrorHub> hubContext)
+        private readonly ILoggingService _loggingService;
+
+        public LinesmanController(AppDbContext context, UserManager<User> userManager, IHubContext<ErrorHub> hubContext, ILoggingService loggingService)
         {
             _context = context;
             _userManager = userManager;
             _hubContext = hubContext;
+            _loggingService = loggingService;
         }
 
         [Route("AddError")]
@@ -66,7 +70,8 @@ namespace GuestHibajelentesEvvegi.Controllers
                 hibasMachine.status = Status_machine.faulty; 
             }
 
-            //Make an errorLog here (via function call, the function need to be made though)
+            //Function makes an errorLog
+            await _loggingService.createErrorLog(error.Id);
 
             await _context.SaveChangesAsync();
 
@@ -104,10 +109,10 @@ namespace GuestHibajelentesEvvegi.Controllers
             return Ok(errorDetails);
         }
 
-        [Route("AddErrorTask/{id}")]
+        [Route("AddErrorTask")]
         [HttpPost]
 
-        public async Task<IActionResult> AddErrorTask([FromBody] AddErrorTaskDto model, int id)
+        public async Task<IActionResult> AddErrorTask([FromBody] AddErrorTaskDto model)
         {
             if (!ModelState.IsValid)
             {
@@ -125,19 +130,20 @@ namespace GuestHibajelentesEvvegi.Controllers
                 status = 0,
                 description = model.description,
                 assigned_to = assignedUser.Id,
-                error_id = id,
+                error_id = Int32.Parse(model.error_id),
                 created_at = DateTime.UtcNow,
             };
 
             await _context.Tasks.AddAsync(errorTask);
 
-            //Make an errorLog here (via function call, the function need to be made though)
+            //Function makes an errorLog
+            await _loggingService.createErrorLog(errorTask.Id);
 
             await _context.SaveChangesAsync();
 
             await _hubContext.Clients.All.SendAsync("ErrorTaskAdded", errorTask);
 
-            return Ok(new { Message = "Error added successfully.", ErrorTaskId = errorTask.Id });
+            return Ok(new { Message = "Task added successfully.", ErrorTaskId = errorTask.Id });
         }
     }
 }

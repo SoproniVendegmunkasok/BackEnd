@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace GuestHibajelentesEvvegi.Models
 {
@@ -7,6 +8,7 @@ namespace GuestHibajelentesEvvegi.Models
     {
         public int Id { get; set; }
 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public Status_error status { get; set; }
 
         public string description { get; set; }
