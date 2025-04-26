@@ -109,6 +109,49 @@ namespace GuestHibajelentesEvvegi.Controllers
             return Ok(errorDetails);
         }
 
+        [Route("ChangeErrorStatus/{id}")]
+        [HttpPut]
+
+        public async Task<IActionResult> ChangeErrorStatus(int id)
+        {
+            var error = await _context.Errors.FindAsync(id);
+
+            if (error == null)
+            {
+                return NotFound(new { Message = "Error not found." });
+            }
+
+            switch(error.status)
+            {
+                case Status_error.Unbegun:
+                    error.status = Status_error.UnderRepair; 
+                    break;
+                case Status_error.UnderRepair:
+                    error.status = Status_error.Finished; 
+                    break;
+                default:
+                    return BadRequest(new { Message = "Invalid status." });
+            }
+
+            try
+            {
+                _context.Errors.Update(error);
+
+                //Function makes an errorLog
+                await _loggingService.createErrorLog(error.Id);
+
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+
+               return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Error updating error status.", Error = ex.Message });
+            }
+
+
+            return Ok(new { Message = "Error status updated successfully.", UpdatedStatus = error.status });
+        }
+
         [Route("AddErrorTask")]
         [HttpPost]
 
@@ -145,5 +188,7 @@ namespace GuestHibajelentesEvvegi.Controllers
 
             return Ok(new { Message = "Task added successfully.", ErrorTaskId = errorTask.Id });
         }
+
+        
     }
 }
