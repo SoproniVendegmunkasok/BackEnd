@@ -93,6 +93,7 @@ namespace GuestHibajelentesEvvegi
             });
 
             builder.Services.AddSingleton<IAuthService, AuthService>();
+            builder.Services.AddScoped<ILoggingService, LoggingService>();
 
 
             var app = builder.Build();

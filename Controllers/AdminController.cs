@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Error = GuestHibajelentesEvvegi.Models.Error;
 
 namespace GuestHibajelentesEvvegi.Controllers
 {
@@ -250,18 +252,14 @@ namespace GuestHibajelentesEvvegi.Controllers
             {
                 return NotFound(new { Message = "Error not found." });
             }
-
-            var baseError = await _context.Errors.FindAsync(errorLog.base_error);
-            var notifiedUser = await _userManager.FindByIdAsync(errorLog.user_id);
             
 
             var errorLogDetails = new
             {
-                errorLog.Id,
-                errorLog.description,
-                base_error = baseError,
-                notified_worker = notifiedUser.UserName,
-                errorLog.created_at
+                description = errorLog.description,
+                created_at = errorLog.created_at,
+                error_id = errorLog.error_id,
+                user_id = errorLog.user_id
             };
 
             return Ok(errorLogDetails);

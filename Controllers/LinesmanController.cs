@@ -37,6 +37,7 @@ namespace GuestHibajelentesEvvegi.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+                
             }
 
             var submittingUser = await _userManager.FindByNameAsync(model.submitted_by);
@@ -70,12 +71,12 @@ namespace GuestHibajelentesEvvegi.Controllers
                 hibasMachine.status = Status_machine.faulty; 
             }
 
-            //Function makes an errorLog
-            await _loggingService.createErrorLog(error.Id);
-
             await _context.SaveChangesAsync();
 
             await _hubContext.Clients.All.SendAsync("ErrorAdded", error);
+
+            //Function makes an errorLog
+            await _loggingService.createErrorLog(error.Id);
 
             return Ok(new { Message = "Error added successfully.", ErrorId = error.Id });
 
@@ -127,7 +128,7 @@ namespace GuestHibajelentesEvvegi.Controllers
                     error.status = Status_error.UnderRepair; 
                     break;
                 case Status_error.UnderRepair:
-                    error.status = Status_error.Finished; 
+                    error.status = Status_error.Finished;
                     break;
                 default:
                     return BadRequest(new { Message = "Invalid status." });
@@ -137,10 +138,10 @@ namespace GuestHibajelentesEvvegi.Controllers
             {
                 _context.Errors.Update(error);
 
+                await _context.SaveChangesAsync();
+
                 //Function makes an errorLog
                 await _loggingService.createErrorLog(error.Id);
-
-                await _context.SaveChangesAsync();
             }
             catch(Exception ex)
             {
@@ -179,12 +180,13 @@ namespace GuestHibajelentesEvvegi.Controllers
 
             await _context.Tasks.AddAsync(errorTask);
 
-            //Function makes an errorLog
-            await _loggingService.createErrorLog(errorTask.Id);
-
             await _context.SaveChangesAsync();
 
             await _hubContext.Clients.All.SendAsync("ErrorTaskAdded", errorTask);
+
+            //Function makes an errorLog
+            await _loggingService.createErrorLog(int.Parse(model.error_id));
+
 
             return Ok(new { Message = "Task added successfully.", ErrorTaskId = errorTask.Id });
         }

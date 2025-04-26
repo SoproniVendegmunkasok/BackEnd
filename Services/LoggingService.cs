@@ -55,7 +55,7 @@ namespace GuestHibajelentesEvvegi.Services
 
             foreach (var item in taskList)
             {
-                desc += $"{item.description}, status: {item.status.ToString()} \n";
+                desc += $"{item.description} | status: {item.status.ToString()} | user: {item.assigned_worker.UserName} \n";
             }
 
             var errorLog = new ErrorLog
