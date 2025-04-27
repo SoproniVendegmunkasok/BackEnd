@@ -11,6 +11,11 @@ namespace GuestHibajelentesEvvegi.SignalRHubs
         {
             await Clients.All.SendAsync("ErrorTaskAdded", errorTask);
         }
+
+        public async Task BroadcastUpdatedErrorTask(object updatedErrorTask)
+        {
+            await Clients.All.SendAsync("ErrorTaskUpdated", updatedErrorTask);
+        }
         public async Task BroadcastNewError(object error)
         {
             await Clients.All.SendAsync("ErrorAdded", error);

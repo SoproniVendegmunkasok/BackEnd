@@ -191,6 +191,70 @@ namespace GuestHibajelentesEvvegi.Controllers
             return Ok(new { Message = "Task added successfully.", ErrorTaskId = errorTask.Id });
         }
 
-        
+        [Route("ChangeErrorTaskToFunctioned/{id}")]
+        [HttpPost]
+
+        public async Task<IActionResult> ChangeErrorTaskToFunctioned(int id)
+        {
+            var errorTask = await _context.Tasks.FindAsync(id);
+
+            if (errorTask == null)
+            {
+                return NotFound(new { Message = "Task not found." });
+            }
+
+            errorTask.status = Status_ErrorTask.Functioned;
+
+            try
+            {
+                _context.Tasks.Update(errorTask);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Error updating task status.", Error = ex.Message });
+            }
+
+            await _hubContext.Clients.All.SendAsync("ErrorTaskUpdated", errorTask);
+
+            //Function makes an errorLog
+            await _loggingService.createErrorLog(id);
+
+            return Ok(new { Message = "Task status updated successfully.", UpdatedStatus = errorTask.status });
+        }
+
+        [Route("ChangeErrorTaskToCausedIssue/{id}")]
+        [HttpPost]
+
+        public async Task<IActionResult> ChangeErrorTaskToCausedIssue(int id)
+        {
+            var errorTask = await _context.Tasks.FindAsync(id);
+
+            if (errorTask == null)
+            {
+                return NotFound(new { Message = "Task not found." });
+            }
+
+            errorTask.status = Status_ErrorTask.CausedIssue;
+
+            try
+            {
+                _context.Tasks.Update(errorTask);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Error updating task status.", Error = ex.Message });
+            }
+
+            await _hubContext.Clients.All.SendAsync("ErrorTaskUpdated", errorTask);
+
+            //Function makes an errorLog
+            await _loggingService.createErrorLog(id);
+
+            return Ok(new { Message = "Task status updated successfully.", UpdatedStatus = errorTask.status });
+        }
+
+
     }
 }
