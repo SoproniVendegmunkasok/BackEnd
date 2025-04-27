@@ -122,6 +122,13 @@ namespace GuestHibajelentesEvvegi.Controllers
                 return NotFound(new { Message = "Error not found." });
             }
 
+            var associatedMachine = await _context.Machines.FindAsync(error.machine_id);
+
+            if (associatedMachine == null)
+            {
+                return NotFound(new { Message = "Associated machine not found." });
+            }
+
             switch(error.status)
             {
                 case Status_error.Unbegun:
@@ -129,6 +136,8 @@ namespace GuestHibajelentesEvvegi.Controllers
                     break;
                 case Status_error.UnderRepair:
                     error.status = Status_error.Finished;
+                    // Used to set the machines status to functional when they are finished with the error
+                    associatedMachine.status = Status_machine.functional;
                     break;
                 default:
                     return BadRequest(new { Message = "Invalid status." });
@@ -137,6 +146,7 @@ namespace GuestHibajelentesEvvegi.Controllers
             try
             {
                 _context.Errors.Update(error);
+                _context.Machines.Update(associatedMachine);
 
                 await _context.SaveChangesAsync();
 
