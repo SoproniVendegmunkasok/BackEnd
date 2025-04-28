@@ -279,8 +279,14 @@ namespace GuestHibajelentesEvvegi.Controllers
             await _hubContext.Clients.All.SendAsync("ErrorTaskUpdated", errorTask);
 
             //Function makes an errorLog
-            await _loggingService.createErrorLog(id);
-
+            try
+            {
+                await _loggingService.createErrorLog(id);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Error creating error log.", Error = ex.Message  });
+            }
             return Ok(new { Message = "Task status updated successfully.", UpdatedStatus = errorTask.status });
         }
 

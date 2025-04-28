@@ -16,9 +16,15 @@ namespace GuestHibajelentesEvvegi.Services
 
         public async Task<IActionResult> createErrorLog(int errorId)
         {
+            
             var associatedError = await _context.Errors
                 .Where(e => e.Id == errorId)
                 .FirstOrDefaultAsync();
+
+            if (associatedError == null)
+            {
+                return new NotFoundResult();
+            }
 
             var associatedMachine = await _context.Machines
                 .Where(m => m.Id == associatedError.machine_id)
