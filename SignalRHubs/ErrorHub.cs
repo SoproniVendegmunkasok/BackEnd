@@ -6,22 +6,32 @@ namespace GuestHibajelentesEvvegi.SignalRHubs
 {
     public class ErrorHub : Hub
     {
-        public async Task BroadcastNewError(object error)
-        {
-            await Clients.All.SendAsync("ErrorAdded", error);
-        }
 
         public async Task BroadcastNewErrorTask(object errorTask)
         {
             await Clients.All.SendAsync("ErrorTaskAdded", errorTask);
         }
 
-        //Update and Delete Broadcasts only added for future use
+        public async Task BroadcastUpdatedErrorTask(object updatedErrorTask)
+        {
+            await Clients.All.SendAsync("ErrorTaskUpdated", updatedErrorTask);
+        }
+        public async Task BroadcastNewError(object error)
+        {
+            await Clients.All.SendAsync("ErrorAdded", error);
+        }
+
+        public async Task BroadcastNewErrorLog(object errorLog)
+        {
+            await Clients.All.SendAsync("ErrorLogAdded", errorLog);
+        }
+
         public async Task BroadcastUpdatedError(object updatedError)
         {
             await Clients.All.SendAsync("ErrorUpdated", updatedError);
         }
 
+        //Delete Broadcast only added for future use
         public async Task BroadcastDeletedError(int errorId)
         {
             await Clients.All.SendAsync("ErrorDeleted", errorId);

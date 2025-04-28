@@ -11,6 +11,6 @@ namespace GuestHibajelentesEvvegi.Models
         public string assigned_to { get; set; }
 
         [Required]
-        public int error_id { get; set; }
+        public string error_id { get; set; }
     }
 }

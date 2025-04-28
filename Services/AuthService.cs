@@ -51,7 +51,7 @@ namespace GuestHibajelentesEvvegi.Services
                 issuer: _configuration["JWT:Issuer"],
                 audience: _configuration["JWT:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(15),
+                expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using GuestHibajelentesEvvegi.Data;
 using GuestHibajelentesEvvegi.Models;
 using GuestHibajelentesEvvegi.Services;
@@ -17,9 +18,13 @@ namespace GuestHibajelentesEvvegi
         { 
             var builder = WebApplication.CreateBuilder(args);
 
-            
 
-            builder.Services.AddControllers();
+
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
             builder.Services.AddSignalR();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -88,6 +93,7 @@ namespace GuestHibajelentesEvvegi
             });
 
             builder.Services.AddSingleton<IAuthService, AuthService>();
+            builder.Services.AddScoped<ILoggingService, LoggingService>();
 
 
             var app = builder.Build();

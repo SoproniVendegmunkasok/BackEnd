@@ -62,7 +62,7 @@ namespace GuestHibajelentesEvvegi.Controllers
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddDays(7)
+                Expires = DateTime.Now.AddDays(7)
             });
 
             return Ok(new
@@ -183,8 +183,8 @@ namespace GuestHibajelentesEvvegi.Controllers
                     HttpOnly = true,
                     Secure = true,
                     SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddDays(7)
-                });
+                    Expires = DateTime.Now.AddDays(7)
+                }); 
 
                 return Ok(new
                 {

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Error = GuestHibajelentesEvvegi.Models.Error;
 
 namespace GuestHibajelentesEvvegi.Controllers
 {
@@ -138,6 +140,16 @@ namespace GuestHibajelentesEvvegi.Controllers
             return Ok(await _context.Machines.ToListAsync());
         }
 
+
+        [HttpGet]
+        [Route("GetFunctioningMachines")]
+        public async Task<IActionResult> FunctioningMachines()
+        {
+            return Ok(await _context.Machines.Where(x=>x.status==Status_machine.functional).ToListAsync());
+        }
+
+
+
         [HttpGet]
         [Route("GetMachineById/{id}")]
         public async Task<IActionResult> GetMachineDetails(int id)
@@ -250,18 +262,14 @@ namespace GuestHibajelentesEvvegi.Controllers
             {
                 return NotFound(new { Message = "Error not found." });
             }
-
-            var baseError = await _context.Errors.FindAsync(errorLog.base_error);
-            var notifiedUser = await _userManager.FindByIdAsync(errorLog.user_id);
             
 
             var errorLogDetails = new
             {
-                errorLog.Id,
-                errorLog.description,
-                base_error = baseError,
-                notified_worker = notifiedUser.UserName,
-                errorLog.created_at
+                description = errorLog.description,
+                created_at = errorLog.created_at,
+                error_id = errorLog.error_id,
+                user_id = errorLog.user_id
             };
 
             return Ok(errorLogDetails);
@@ -274,7 +282,22 @@ namespace GuestHibajelentesEvvegi.Controllers
         [Route("GetAllUsers")]
         public async Task<IActionResult> AllUsers()
         {
-            return Ok(await _userManager.Users.ToListAsync());
+            var users = await _userManager.Users.ToListAsync();
+            var usersWithRoles = new List<object>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                usersWithRoles.Add(new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    Roles = roles
+                });
+            }
+
+            return Ok(usersWithRoles);
         }
 
 
