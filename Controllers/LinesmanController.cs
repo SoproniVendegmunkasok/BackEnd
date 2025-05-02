@@ -136,6 +136,7 @@ namespace GuestHibajelentesEvvegi.Controllers
                     break;
                 case Status_error.UnderRepair:
                     error.status = Status_error.Finished;
+                    error.resolved_at = DateTime.Now;
                     // Used to set the machines status to functional when they are finished with the error
                     associatedMachine.status = Status_machine.functional;
                     break;
@@ -200,7 +201,7 @@ namespace GuestHibajelentesEvvegi.Controllers
 
             var errorTask = new ErrorTask
             {
-                status = 0,
+                status = Status_ErrorTask.UnderChecking,
                 description = model.description,
                 assigned_to = assignedUser.Id,
                 error_id = Int32.Parse(model.error_id),
@@ -233,6 +234,7 @@ namespace GuestHibajelentesEvvegi.Controllers
             }
 
             errorTask.status = Status_ErrorTask.Functioned;
+            errorTask.resolved_at = DateTime.Now;
 
             try
             {
@@ -265,6 +267,7 @@ namespace GuestHibajelentesEvvegi.Controllers
             }
 
             errorTask.status = Status_ErrorTask.CausedIssue;
+            errorTask.resolved_at = DateTime.Now;
 
             try
             {
