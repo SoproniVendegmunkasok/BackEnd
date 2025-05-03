@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GuestHibajelentesEvvegiTesting")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f7421c297cd716e902802c782d1beb350a7bc65")]
 [assembly: System.Reflection.AssemblyProductAttribute("GuestHibajelentesEvvegiTesting")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GuestHibajelentesEvvegiTesting")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
