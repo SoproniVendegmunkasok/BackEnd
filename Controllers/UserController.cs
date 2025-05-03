@@ -71,25 +71,6 @@ namespace GuestHibajelentesEvvegi.Controllers
                 ExpiresIn = 900,
             });
 
-
-            //Régi kód
-
-            //User user = await _userManager.FindByNameAsync(name);
-            //if (user == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
-            //if (result.Succeeded)
-            //{
-            //    //_logger.LogDebug("Kész");
-            //    return Ok(new {token= await GenerateJwtToken(user) , refreshToken = "xd", user=_Automapper.Map<UserDto>(user)});
-            //}
-            //else
-            //{
-            //    return Unauthorized();
-            //}
         }
 
         [Route("Logout")]
