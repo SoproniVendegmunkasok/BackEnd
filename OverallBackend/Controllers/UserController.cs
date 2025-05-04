@@ -178,40 +178,6 @@ namespace GuestHibajelentesEvvegi.Controllers
                 return Unauthorized("Invalid token");
             }
         }
-
-        //Old Token generation
-
-        //private async Task<string> GenerateJwtToken(User user)
-        //{
-        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]));
-        //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        //    var roles = await _userManager.GetRolesAsync(user);
-        //    List<Claim> userClaims = new List<Claim>();
-
-        //    foreach (var role in roles)
-        //    {
-        //        userClaims.Add(new Claim(ClaimTypes.Role, role));
-        //    }
-
-
-        //    var token = new JwtSecurityToken(
-        //        issuer: _configuration["JWT:Issuer"],
-        //        audience: _configuration["JWT:Audience"],
-        //        claims: userClaims,
-        //        expires: DateTime.Now.AddMinutes(30),
-        //        signingCredentials: creds);
-
-        //    return new JwtSecurityTokenHandler().WriteToken(token);
-        //}
-
-        //Function for finding tasks from the id of an error
-
-        //public async Task<IActionResult> FindTasks(int errorId)
-        //{
-        //    var errorTasks = await _context.Tasks.Where(t => t.associated_error.Id == errorId).ToListAsync();
-        //    return Ok(errorTasks);
-        //}
     }
 }
 
